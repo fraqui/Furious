@@ -1,2 +1,0 @@
-# Furious
-Core Fivem Standlone
