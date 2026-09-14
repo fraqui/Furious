@@ -12,10 +12,15 @@ client_scripts {
 }
 
 server_scripts {
-    'server/main.lua'
+    '@oxmysql/lib/MySQL.lua',
+
+    'server/functions.lua',
+    'server/main.lua',
+
+    'server/modules/database.lua'
 }
 
 shared_scripts {
-    'config.lua',
+    'config/*.lua',
     'shared/*.lua'
 }
