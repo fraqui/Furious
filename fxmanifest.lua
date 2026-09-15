@@ -14,10 +14,13 @@ client_scripts {
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
 
+    'server/classes/player.lua',
+
     'server/functions.lua',
     'server/main.lua',
 
-    'server/modules/database.lua'
+    'server/modules/database.lua',
+    'server/modules/player.lua',
 }
 
 shared_scripts {

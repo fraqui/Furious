@@ -19,16 +19,14 @@ function Player:New(data)
 
     local self = setmetatable({}, Player)
 
-    self.source = data.source
+    self.playerId = data.playerId
     self.name = data.name
 
     self.ip = data.ip
-
     self.license = data.license
     self.discord = data.discord
 
-    self.permid = data.permid
-
+    self.permId = data.permId
     self.characterId = data.characterId
 
     self.loaded = false
@@ -52,7 +50,7 @@ function Player:New(data)
 
     ---@return number
     function self:GetId()
-        return self.permid
+        return self.permId
     end
 
     ---@return string
