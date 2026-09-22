@@ -1,7 +1,8 @@
-DB = {
-  Connected = false
-}
+---@class DB
+DB = {}
 
+---@type boolean
+DB.Connected = false
 
 function DB.Connect()
   print("^3 Connexion à la base de données...^7")
@@ -48,3 +49,31 @@ function DB.Start()
     end
   end)
 end
+
+local function execute(operation, query, params)
+  if not DB.Connected then return nil end
+
+  local ok, result = pcall(function()
+    return MySQL[operation].await(query, params or {})
+  end)
+
+  if not ok then
+    print(('^1[DATABASE] Échec SQL (%s).^7'):format(operation))
+    Utils.DebugPrint({
+      query = query,
+      params = params,
+      error = result
+    })
+    return nil
+  end
+
+  return result
+end
+
+function DB.Query(query, params) return execute('query', query, params) end
+
+function DB.Single(query, params) return execute('single', query, params) end
+
+function DB.Insert(query, params) return execute('insert', query, params) end
+
+function DB.Update(query, params) return execute('update', query, params) end

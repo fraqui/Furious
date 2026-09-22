@@ -1,18 +1,25 @@
 fx_version 'cerulean'
 game 'gta5'
 
-lua54 'yes'
-
 author 'Furious'
 description 'Furious resource'
 version '0.1.0'
 
-client_scripts {
-    'client/main.lua'
+dependencies {
+    'oxmysql',
+    'spawnmanager',
+    '/onesync'
+}
+
+shared_scripts {
+    'config/*.lua',
+    'shared/*.lua'
 }
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
+
+    'server/common.lua',
 
     'server/classes/player.lua',
 
@@ -20,10 +27,12 @@ server_scripts {
     'server/main.lua',
 
     'server/modules/database.lua',
+    'server/modules/variables.lua',
+    'server/variables.lua',
     'server/modules/player.lua',
 }
 
-shared_scripts {
-    'config/*.lua',
-    'shared/*.lua'
+client_scripts {
+    'client/main.lua',
+    'client/variables'
 }
