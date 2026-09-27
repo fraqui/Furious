@@ -23,8 +23,9 @@ function Player:CreateExtendedPlayer(data)
     self.ip = data.ip
     self.license = data.license
     self.discord = data.discord
+    self.fivem = data.fivem
 
-    self.permId = data.permId
+    self.PermId = data.PermId
     self.characterId = data.characterId
 
     self.loaded = false
@@ -33,32 +34,6 @@ function Player:CreateExtendedPlayer(data)
     self.group = data.group or "user"
 
     return self
-end
-
-function Player:Save()
-    print("Sauvegarde du joueur " .. self.name .. " (ID: " .. self.PermId .. ")")
-    local data = {
-        name = self.name,
-        ip = self.ip,
-        license = self.license,
-        discord = self.discord,
-        group = self.group,
-        PermId = self.permId,
-    }
-
-    if data then
-        DB.Update(
-            [[ UPDATE players SET name = ?, ip = ?, license = ?, discord = ?, group = ?, loaded = ? WHERE PermId = ? ]],
-            {
-                data.name,
-                data.ip,
-                data.license,
-                data.discord,
-                data.group,
-                data.loaded,
-                data.PermId
-            })
-    end
 end
 
 function Player:Load()
@@ -76,8 +51,8 @@ function Player:GetGroup()
 end
 
 ---@return number
-function Player:GetId()
-    return self.permId
+function Player:GetPermId()
+    return self.PermId
 end
 
 ---@return string
@@ -103,7 +78,20 @@ function Player:SetGroup(new_group)
 
     self.group = new_group
 
-    --Systeme de logs
+    local ok, result = pcall(function()
+        DB.Update([[ UPDATE players SET `group` = ? WHERE PermId = ? ]], {
+            self.group,
+            self.PermId
+        })
+    end)
 
-    ExecuteCommand("add_principal identifier.license:" .. self.license .. " group." .. new_group)
+    if ok then
+        print("Changement de group pour " .. self.PermId .. " | Ancien : " .. last_group .. " | nouveau : " .. new_group)
+        --Systeme de logs
+
+        ExecuteCommand("add_principal identifier.license:" .. self.license .. " group." .. new_group)
+    else
+        --Systeme de logs
+        print("Le changement du groupe pour " .. self.PermId .. " à échoué niveau SQL.")
+    end
 end

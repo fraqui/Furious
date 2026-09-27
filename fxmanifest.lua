@@ -30,9 +30,16 @@ server_scripts {
     'server/modules/variables.lua',
     'server/variables.lua',
     'server/modules/player.lua',
+
+    'modules/server/modules.lua',
+    'modules/server/bridge.js',
+    'modules/server/modulas.lua'
 }
 
 client_scripts {
     'client/main.lua',
-    'client/variables'
+    'client/variables.lua',
+
+    'modules/client/modules.lua',
+    'modules/client/bridge.js'
 }

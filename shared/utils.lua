@@ -79,3 +79,9 @@ function Utils.DebugPrint(data)
     print("^5[DEBUG]^7")
     print(encoded)
 end
+
+function Utils.DeV(string)
+    if not Variables.Get("ModeDev") then return end
+    if not string then return end
+    print("Dev | " .. string)
+end

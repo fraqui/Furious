@@ -290,3 +290,26 @@ RegisterCommand("setvar", function(source, args)
         ):format(result))
     end
 end, true)
+
+function Variables.Client()
+    local _varclient = {}
+
+    for name, config in pairs(Variables.Registered) do
+        if config.replicated then
+            _varclient[name] = config.value
+        end
+    end
+
+    return _varclient
+end
+
+function Variables.SyncPlayer(source)
+    local data = Variables.Client()
+    TriggerClientEvent("Furious:client:Variables:Syncbyserver", source, data)
+end
+
+RegisterNetEvent("Furious:server:Variables:Syncbyclient", function()
+    local source = source
+    local data = Variables.Client()
+    TriggerClientEvent("Furious:client:Variables:Syncbyclient", source, data)
+end)
